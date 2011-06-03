@@ -37,7 +37,7 @@ class PirateBayAPI():
     		elements = result.findAll('td')
     		current = {}
     		
-            # Iterate!
+            # Iterate! ADD SIZE!!!!!!
     		for position, item in enumerate(elements):
     			if position == 1:
     				link = item.find("a", { "class" : "detLink" })
@@ -52,13 +52,42 @@ class PirateBayAPI():
         
         return results
     
+    def __fetch(self, call):
+        """returns content from URL"""
+        result = urlfetch.fetch(call).content
+        if (result == None): raise "There was an error fetching the url: " + call
+        
+        return result
+    
+    def __parseDescriptionPage(self, page):
+        """returns a dictionary with details from the page"""
+        parser = BeautifulSoup(page)
+        results = {}
+        
+        # Get torrent url
+        url = parser.find('div', {'class' : 'download'}).find('a')['href']
+        results['torrent_url'] = url
+        
+        # return data
+        return results
+        
+    def requestTorrentForResultURL(self, url):
+        """return a url leading to torrent giving a description url as input"""
+        if (url == ''): raise "Please insert a valid value"
+        
+        # Fetch description page
+        page = self.__fetch(self.uri + url)
+        
+        # Parse result
+        return self.__parseDescriptionPage(page)
+    
     def requestResultsForValue(self, value):
         """return an array of results given a value as input"""
         if (value == ''): raise "Please insert a valid value"
         
         # Generate URI and make call to ThePirateBay
         call = "%s/search/%s/0/7/0" % (self.uri, quote(value))
-        result = urlfetch.fetch(call).content
+        result = self.__fetch(call)
         
         # TODO: Parse URL
         return self.__parseResult(result)
