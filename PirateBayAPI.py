@@ -18,6 +18,23 @@ class PirateBayAPI():
     """This component is used to generate results for thepiratebay.org"""
     uri = 'http://thepiratebay.org'
     
+    orderBy= [{'string' : 'SE', 'value' : 7}, {'string' : 'LE' , 'value' : 9}, {'string' : 'name' , 'value' : 1}, {'string' : 'type' , 'value' : 13}, {'string' : 'size' , 'value' : 5}]
+    filterBy = [{'string' : 'audio', 'value' : 100}, {'string' : 'video', 'value' : 200}, {'string' : 'audio', 'value' : 100}, {'string' : 'applications', 'value' : 300}, {'string' : 'games', 'value' : 400}, {'string' : 'other', 'value' : 600}, {'string' : 'none', 'value' : 0}]
+    
+    def __getOrderByValue(self, value):
+        # Returns a value used from TPB to identify order by, defaults to name
+        for f in self.orderBy:
+            if value == f['string']:
+                return f['value']
+        return 1
+        
+    def __getFilterByValue(self, value):
+        # Returns a value used from TPB to identify filter by, defaults to none
+        for f in self.filterBy:
+            if value == f['string']:
+                return f['value']
+        return 0
+    
     def __parseResult(self, result):
         """Returns a list of results, each result has: name, link, SE, LE"""
     	parser = BeautifulSoup(result)
@@ -81,13 +98,14 @@ class PirateBayAPI():
         # Parse result
         return self.__parseDescriptionPage(page)
     
-    def requestResultsForValue(self, value):
-        """return an array of results given a value as input"""
+    def requestResultsForValue(self, value, orderBy= 'SE', filter = 'none'):
+        """return an array of results given a value as input, optional values are filter and orderBy"""
+        
+        # validate
         if (value == ''): raise "Please insert a valid value"
         
         # Generate URI and make call to ThePirateBay
-        call = "%s/search/%s/0/7/0" % (self.uri, quote(value))
+        call = "%s/search/%s/0/%s/%s" % (self.uri, quote(value), self.__getOrderByValue(orderBy), self.__getFilterByValue(filter))
         result = self.__fetch(call)
         
-        # TODO: Parse URL
         return self.__parseResult(result)
