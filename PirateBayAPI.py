@@ -98,6 +98,22 @@ class PirateBayAPI():
         # Parse result
         return self.__parseDescriptionPage(page)
     
+    
+    def requestResultsforTop100(self, filter="none"):
+        """returns an array of the top 100 torrents of a category, defaults to all"""
+        
+        call ="%s/top/%s" % (self.uri, self.__getFilterByValue(filter))
+        result = self.__fetch(call)
+        
+        return self.__parseResult(result)
+    
+    def requestResultsforRecentUploads(self):
+        # return an array of recently uploaded torrents
+        call = "%s/recent" % self.uri
+        result = self.__fetch(call)
+        
+        return self.__parseResult(result)
+    
     def requestResultsForValue(self, value, orderBy= 'SE', filter = 'none'):
         """return an array of results given a value as input, optional values are filter and orderBy"""
         
