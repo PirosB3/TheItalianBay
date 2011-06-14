@@ -1,0 +1,55 @@
+
+<!doctype html>
+<!--[if lt IE 7 ]> <html lang="en" class="no-js ie6"> <![endif]-->
+<!--[if IE 7 ]>    <html lang="en" class="no-js ie7"> <![endif]-->
+<!--[if IE 8 ]>    <html lang="en" class="no-js ie8"> <![endif]-->
+<!--[if IE 9 ]>    <html lang="en" class="no-js ie9"> <![endif]-->
+<!--[if (gt IE 9)|!(IE)]><!--> <html lang="en" class="no-js"> <!--<![endif]-->
+<head>
+	<meta charset="UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+	
+	<title>The Italian Bay 	| {% block title %}{% endblock %}</title>
+	<meta name="description" content="Italian's Pirate Bay, Still up and running">
+	<meta name="author" content="Daniel Pyrathon">
+	
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	
+	<link rel="shortcut icon" href="/static/favicon.ico">
+	<link rel="stylesheet" href="/static/css/style.css?v=2">
+
+	<script src="/static/js/libs/modernizr-1.7.min.js"></script>
+</head>
+<body>
+	<div id="container">
+		<header>
+			<h1 id="title"><a title="The Italian Bay" href="/"></a></h1>
+		</header>
+
+		<div id="main" role="main">
+			{% block main %}
+			{% endblock %}
+		</div>
+
+		<footer>
+
+		</footer>
+	</div>
+
+	<script src="//ajax.googleapis.com/ajax/libs/jquery/1.5.1/jquery.js"></script>
+	<script>!window.jQuery && document.write(unescape('%3Cscript src="/static/js/libs/jquery-1.5.1.js"%3E%3C/script%3E'))</script>
+	<script src="/static/js/plugins.js"></script>
+	<script src="/static/js/script.js"></script>
+	{% block external %}{% endblock %}
+	<!--[if lt IE 7 ]>
+	<script src="js/libs/dd_belatedpng.js"></script>
+	<script> DD_belatedPNG.fix('img, .png_bg');</script>
+	<![endif]-->
+	<script>
+		var _gaq=[['_setAccount','UA-XXXXX-X'],['_trackPageview']]; // Change UA-XXXXX-X to be your site's ID
+		(function(d,t){var g=d.createElement(t),s=d.getElementsByTagName(t)[0];g.async=1;
+		g.src=('https:'==location.protocol?'//ssl':'//www')+'.google-analytics.com/ga.js';
+		s.parentNode.insertBefore(g,s)}(document,'script'));
+	</script>
+</body>
+</html>
