@@ -87,15 +87,52 @@ a:hover { color: #036; }
 */
 
 
+body{
+    background-image: url('/static/img/tile.jpg');
+    background-repeat: repeat;
+}
 
+header{
+    padding: 20px 0px;
+}
 
+#container{
+    width: 960px;
+    margin: 0 auto;
+}
+#title a{
+    background: url("/static/img/logo.jpg") no-repeat scroll 0 0 transparent;
+    border: 0 none;
+    display: block;
+    height: 120px;
+    margin: 0 auto;
+    text-indent: -9999px;
+    width: 180px;
+}
 
+#search-form{
+    text-align: center;
+}
 
+#search-field{
+    border: 1px dashed black;
+    color: #932B1B;
+    font-family: arial,helvetica,sans-serif;
+    font-size: 14px;
+    font-weight: normal;
+    margin-left: 10px;
+    margin-right: 10px;
+    padding: 3px;
+    width: 375px;   
+}
 
+#filter-field{
+    margin-top: 7px;
+}
 
-
-
-
+#filter-field label{
+    padding: 0 5px;
+}
 
 
 
