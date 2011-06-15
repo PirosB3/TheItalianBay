@@ -72,7 +72,7 @@ class PirateBayAPI():
     def __fetch(self, call):
         """returns content from URL"""
         result = urlfetch.fetch(call).content
-        if (result == None): raise "There was an error fetching the url: " + call
+        if (result == None): raise Exception("There was an error fetching the url: " + call)
         
         return result
     
@@ -90,7 +90,7 @@ class PirateBayAPI():
         
     def requestTorrentForResultURL(self, url):
         """return a url leading to torrent giving a description url as input"""
-        if (url == ''): raise "Please insert a valid value"
+        if (url == ''): raise Exception("Please insert a valid value")
         
         # Fetch description page
         page = self.__fetch(self.uri + url)
@@ -118,7 +118,7 @@ class PirateBayAPI():
         """return an array of results given a value as input, optional values are filter and orderBy"""
         
         # validate
-        if (value == ''): raise "Please insert a valid value"
+        if (value == ''): raise Exception("Please insert a valid value")
         
         # Generate URI and make call to ThePirateBay
         call = "%s/search/%s/0/%s/%s" % (self.uri, quote(value), self.__getOrderByValue(orderBy), self.__getFilterByValue(filter))
