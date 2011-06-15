@@ -166,6 +166,30 @@ header{
     color: white;
 }
 
+#results{
+    border: 1px solid #932B1B;
+    margin: 0 auto;
+    margin-top: 20px;
+    background-color: white;
+    -moz-box-shadow: 0px 0px 5px black; 
+    -webkit-box-shadow: 0px 0px 5px black; 
+    box-shadow: 0px 0px 5px black;
+}
+
+#results-head{
+    background-color: #932B1B;
+    color: white;
+}
+
+#results-head th{
+    padding: 3px 0px;
+}
+
+#results td{
+    padding: 5px 10px;
+    border-bottom: 1px solid #932B1B;
+    border-right: 1px solid #932B1B;
+}
 
 .ir { display: block; text-indent: -999em; overflow: hidden; background-repeat: no-repeat; text-align: left; direction: ltr; }
 .hidden { display: none; visibility: hidden; }

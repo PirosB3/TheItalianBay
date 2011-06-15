@@ -5,22 +5,40 @@
 {% endblock %}
 
 {% block main %}
-	<table width="500" border="1"> 
-		<thead>
-			<tc>
+
+	<div id="search-section" class="section">
+		<h3 class="section-title"><a href="#">Search</a></h3>
+		<div class="section-content">
+			<form id="search-form" action="/requestResultsForValue" method="get" accept-charset="utf-8">
+				<label for="value">Search For:</label><input id="search-field" type="text" name="value" value="{{ original_query }}" id="value">
+				<input type="submit" value="Search">
+				<div id="filter-field">
+					<input type="checkbox" name="filter" value="audio" id="audio"><label for="audio">Audio</label>
+					<input type="checkbox" name="filter" value="video" id="video"><label for="video">Video</label>
+					<input type="checkbox" name="filter" value="applications" id="applications"><label for="applications">Applications</label>
+					<input type="checkbox" name="filter" value="games" id="games"><label for="games">Games</label>
+					<input type="checkbox" name="filter" value="others" id="others"><label for="others">Others</label>
+				</div>
+			</form>
+		</div>
+	</div>
+	
+	<table id="results" width="960" border="1"> 
+		<thead id="results-head">
+			<tr>
 				<th scope="col">Title</th>
 				<th scope="col">Size</th>
 				<th scope="col">SE</th>
 				<th scope="col">LE</th>
-			</tc>
+			</tr>
 		</thead>
 		<tbody>
 			{% for result in results %}
 				<tr>
 					<td>{{ result.title}}</td>
-					<td>200.5</td>
-					<td>{{ result.SE }}</td>
-					<td>{{ result.LE }}</td>
+					<td><center>200.5</center></td>
+					<td><center>{{ result.SE }}</center></td>
+					<td><center>{{ result.LE }}</center></td>
 				</tr>
 			{% endfor %}
 		</tbody>
