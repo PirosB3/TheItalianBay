@@ -3,7 +3,8 @@ $(function(){
     // Validate Search Field
     $('#search-form').submit(function(e)
     {
-        if ($('search-field').text().length == 0)
+        var x = $('search-field');
+        if (document.getElementById('search-field').value.length == 0)
         {
             e.preventDefault();
         }
