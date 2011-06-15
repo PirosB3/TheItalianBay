@@ -42,11 +42,10 @@ class PirateBayAPI():
         
     	# find results within table #searchResult and get a list of rows
     	resultsTable = parser.find('table', {'id' : 'searchResult'})
-    	if resultsTable == None: return {}
-    	
-    	resultRows = resultsTable.findAll("tr")
+    	if resultsTable == None: return []
     	
         # Iterate over each row and store results in list
+        resultRows = resultsTable.findAll("tr")
         if (len(resultRows) == 0 or resultRows == None): return {}
     	for result in resultRows:
     	    
