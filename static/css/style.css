@@ -214,6 +214,21 @@ header{
     text-decoration: underline !important;
 }
 
+.section-content a{
+    text-decoration: none;
+    color: #444444;
+}
+
+#top-100-section a{
+    margin: 0px 16px;
+    font-size: 15px;
+}
+
+.section-content a:hover{
+    text-decoration: underline;
+}
+
+
 .ir { display: block; text-indent: -999em; overflow: hidden; background-repeat: no-repeat; text-align: left; direction: ltr; }
 .hidden { display: none; visibility: hidden; }
 .visuallyhidden { border: 0; clip: rect(0 0 0 0); height: 1px; margin: -1px; overflow: hidden; padding: 0; position: absolute; width: 1px; }
