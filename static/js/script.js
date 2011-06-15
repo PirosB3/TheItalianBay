@@ -1,5 +1,14 @@
 $(function(){
     
+    // Validate Search Field
+    $('#search-form').submit(function(e)
+    {
+        if ($('search-field').text().length == 0)
+        {
+            e.preventDefault();
+        }
+    })
+    
     // For Sections
     $('.section-title').live('click', function()
     {
