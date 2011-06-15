@@ -67,6 +67,8 @@ class PirateBayAPI():
     		results.append(current)
             # Validate iteration has been done correctly
         
+        # Remove item at index 0
+        del results[0]
         return results
     
     def __fetch(self, call):
