@@ -5,15 +5,28 @@
 {% endblock %}
 
 {% block main %}
-	<form id="search-form" action="/requestResultsForValue" method="get" accept-charset="utf-8">
-		<label for="value">Search For:</label><input id="search-field" type="text" name="value" value="" id="value">
-		<input type="submit" value="Search">
-		<div id="filter-field">
-			<input type="checkbox" name="filter" value="audio" id="audio"><label for="audio">Audio</label>
-			<input type="checkbox" name="filter" value="video" id="video"><label for="video">Video</label>
-			<input type="checkbox" name="filter" value="applications" id="applications"><label for="applications">Applications</label>
-			<input type="checkbox" name="filter" value="games" id="games"><label for="games">Games</label>
-			<input type="checkbox" name="filter" value="others" id="others"><label for="others">Others</label>
+
+	<div id="info-section" class="section startup-closed">
+		<h3 class="section-title"><a href="#">What's all the buzz about?</a></h3>
+		<div class="section-content">
+			Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
 		</div>
-	</form>
+	</div>
+
+	<div id="search-section" class="section">
+		<h3 class="section-title"><a href="#">Search</a></h3>
+		<div class="section-content">
+			<form id="search-form" action="/requestResultsForValue" method="get" accept-charset="utf-8">
+				<label for="value">Search For:</label><input id="search-field" type="text" name="value" value="" id="value">
+				<input type="submit" value="Search">
+				<div id="filter-field">
+					<input type="checkbox" name="filter" value="audio" id="audio"><label for="audio">Audio</label>
+					<input type="checkbox" name="filter" value="video" id="video"><label for="video">Video</label>
+					<input type="checkbox" name="filter" value="applications" id="applications"><label for="applications">Applications</label>
+					<input type="checkbox" name="filter" value="games" id="games"><label for="games">Games</label>
+					<input type="checkbox" name="filter" value="others" id="others"><label for="others">Others</label>
+				</div>
+			</form>
+		</div>
+	</div>
 {% endblock %}

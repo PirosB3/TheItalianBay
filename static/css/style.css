@@ -101,13 +101,13 @@ header{
     margin: 0 auto;
 }
 #title a{
-    background: url("/static/img/logo.jpg") no-repeat scroll 0 0 transparent;
+    background: url("/static/img/logo-complete.png") no-repeat scroll 0 0 transparent;
     border: 0 none;
     display: block;
-    height: 120px;
+    height: 159px;
     margin: 0 auto;
     text-indent: -9999px;
-    width: 180px;
+    width: 200px;
 }
 
 #search-form{
@@ -123,7 +123,7 @@ header{
     margin-left: 10px;
     margin-right: 10px;
     padding: 3px;
-    width: 375px;   
+    width: 300px;   
 }
 
 #filter-field{
@@ -134,7 +134,41 @@ header{
     padding: 0 5px;
 }
 
+.section{
+    width: 500px;
+    margin: 0 auto;
+    background-color: #932B1B;
+    -moz-border-radius: 6px; 
+    -webkit-border-radius: 6px; 
+    border-radius: 6px; 
+    -moz-background-clip: padding; -webkit-background-clip: padding-box; background-clip: padding-box;
+    padding: 0px 7px 10px 7px;
+    margin-bottom: 20px;
+    
+    
+       -moz-box-shadow: 0px 0px 5px black; 
+    -webkit-box-shadow: 0px 0px 5px black; 
+            box-shadow: 0px 0px 5px black; 
 
+
+}
+
+.section-content{
+    background-color: white;
+    padding: 20px 10px;
+}
+
+.section-title{
+    color: white;
+    font-size: 12pt;
+    line-height: 16px;
+    padding: 8px 17px;
+}
+
+.section-title a{
+    text-decoration: none;
+    color: white;
+}
 
 
 .ir { display: block; text-indent: -999em; overflow: hidden; background-repeat: no-repeat; text-align: left; direction: ltr; }
