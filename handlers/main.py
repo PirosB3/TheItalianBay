@@ -14,20 +14,20 @@ class RootHandler(webapp.RequestHandler):
 # GET /requestResultsForValue?value=spider+man&filter=video
 class RequestResultsForValueHandler(webapp.RequestHandler):
     def get(self):
-        # Check if values have been passed, if not redirect to root
         
+        # Check if values have been passed, if not redirect to root
         value = self.request.get('value')
-        if value is '':
-            self.redirect('/')
+        if value == "":
+            return self.redirect('/')
             
         # Check if filters have been applied
         filter = self.request.get('filter')
-        if filter is '':
+        if filter == '':
             filter = 'none'
             
         # Render Response
         results = PirateBayAPI().requestResultsForValue(value=value, filter=filter)
-        self.response.out.write(results)
+        self.response.out.write(template.render(TEMPLATE_PATH + 'search-results.html', {'results' : results, 'original_query' : value}))
 
 def main():
     application = webapp.WSGIApplication([('/', RootHandler), ('/requestResultsForValue', RequestResultsForValueHandler)],
