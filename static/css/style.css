@@ -144,13 +144,9 @@ header{
     -moz-background-clip: padding; -webkit-background-clip: padding-box; background-clip: padding-box;
     padding: 0px 7px 10px 7px;
     margin-bottom: 20px;
-    
-    
-       -moz-box-shadow: 0px 0px 5px black; 
+    -moz-box-shadow: 0px 0px 5px black; 
     -webkit-box-shadow: 0px 0px 5px black; 
-            box-shadow: 0px 0px 5px black; 
-
-
+    box-shadow: 0px 0px 5px black;
 }
 
 .section-content{
