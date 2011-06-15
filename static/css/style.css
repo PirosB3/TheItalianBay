@@ -191,6 +191,29 @@ header{
     border-right: 1px solid #932B1B;
 }
 
+#results td a{
+    color: #444444;
+    text-decoration: none;
+}
+
+#results td a:hover{
+    text-decoration: underline;
+}
+
+.hover td{
+    background-color: #932B1B;
+    color: white;
+}
+
+.hover td a{
+    color: white !important;
+    text-decoration: none !important;
+}
+
+.hover td a:hover{
+    text-decoration: underline !important;
+}
+
 .ir { display: block; text-indent: -999em; overflow: hidden; background-repeat: no-repeat; text-align: left; direction: ltr; }
 .hidden { display: none; visibility: hidden; }
 .visuallyhidden { border: 0; clip: rect(0 0 0 0); height: 1px; margin: -1px; overflow: hidden; padding: 0; position: absolute; width: 1px; }
