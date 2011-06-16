@@ -39,8 +39,18 @@ class RequestResultsforTop100(webapp.RequestHandler):
         results = PirateBayAPI().requestResultsforTop100(filter=filter)
         self.response.out.write(template.render(TEMPLATE_PATH + 'search-results.html', {'results' : results, 'original_query' : ''}))
 
+# GET /requestTorrentForResultURL?url=/torrent/5945000/Call.of.Duty.Black.Ops-SKIDROW-[tracker.BTARENA.org].iso
+class RequestTorrentForResultURL(webapp.RequestHandler):
+    def get(self):
+        url = self.request.get('url')
+        if url == '':
+            return self.redirect('/')
+        
+        fileURL = PirateBayAPI().requestTorrentForResultURL(url)
+        self.redirect(fileURL['torrent_url'])
+
 def main():
-    application = webapp.WSGIApplication([('/', RootHandler), ('/requestResultsForValue', RequestResultsForValueHandler), ('/requestResultsforTop100', RequestResultsforTop100)],
+    application = webapp.WSGIApplication([('/', RootHandler), ('/requestResultsForValue', RequestResultsForValueHandler), ('/requestResultsforTop100', RequestResultsforTop100), ('/requestTorrentForResultURL', RequestTorrentForResultURL)],
                                          debug=False)
     util.run_wsgi_app(application)
 
