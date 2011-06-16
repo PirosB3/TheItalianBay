@@ -9,6 +9,7 @@ Written By PirosB3, http://pirosb3.com
 
 from google.appengine.api import urlfetch
 from urllib import quote
+from re import findall
 
 from BeautifulSoup import BeautifulSoup
 
@@ -38,6 +39,7 @@ class PirateBayAPI():
     def __parseResult(self, result):
         """Returns a list of results, each result has: name, link, SE, LE"""
     	parser = BeautifulSoup(result)
+        regex = 'Size\s+(\d+(?:\.\d+)?\s+[A-Za-z]+)'
         results = []
         
     	# find results within table #searchResult and get a list of rows
@@ -59,6 +61,10 @@ class PirateBayAPI():
     				link = item.find("a", { "class" : "detLink" })
     				current['title'] = link.text
     				current['permalink'] = link['href']
+    				
+                    # Use regex to get size
+                    string = item.find("font", { "class" : "detDesc" }).text
+                    current['size'] = findall(regex, string)[0]
     			if position == 2:
     				current['SE'] = item.text
     			if position == 3:
