@@ -29,8 +29,18 @@ class RequestResultsForValueHandler(webapp.RequestHandler):
         results = PirateBayAPI().requestResultsForValue(value=value, filter=filter)
         self.response.out.write(template.render(TEMPLATE_PATH + 'search-results.html', {'results' : results, 'original_query' : value}))
 
+# GET /requestResultsforTop100?filter=video
+class RequestResultsforTop100(webapp.RequestHandler):
+    def get(self):
+        filter = self.request.get('filter')
+        if filter == '':
+            filter = 'none'
+        
+        results = PirateBayAPI().requestResultsforTop100(filter=filter)
+        self.response.out.write(template.render(TEMPLATE_PATH + 'search-results.html', {'results' : results, 'original_query' : ''}))
+
 def main():
-    application = webapp.WSGIApplication([('/', RootHandler), ('/requestResultsForValue', RequestResultsForValueHandler)],
+    application = webapp.WSGIApplication([('/', RootHandler), ('/requestResultsForValue', RequestResultsForValueHandler), ('/requestResultsforTop100', RequestResultsforTop100)],
                                          debug=False)
     util.run_wsgi_app(application)
 
