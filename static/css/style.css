@@ -228,6 +228,10 @@ header{
     text-decoration: underline;
 }
 
+#info-section b{
+    color: #932B1B;
+}
+
 
 .ir { display: block; text-indent: -999em; overflow: hidden; background-repeat: no-repeat; text-align: left; direction: ltr; }
 .hidden { display: none; visibility: hidden; }
