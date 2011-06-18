@@ -47,7 +47,11 @@ class RequestTorrentForResultURL(webapp.RequestHandler):
             return self.redirect('/')
         
         fileURL = PirateBayAPI().requestTorrentForResultURL(url)
-        self.redirect(fileURL['torrent_url'])
+        
+        # Format response and return
+        self.response.headers['Content-Disposition'] = 'attachment; filename=%s.torrent' % url
+        self.response.headers['Content-Type'] = "application/x-bittorent"
+        self.response.out.write(fileURL)
 
 def main():
     application = webapp.WSGIApplication([('/', RootHandler), ('/requestResultsForValue', RequestResultsForValueHandler), ('/requestResultsforTop100', RequestResultsforTop100), ('/requestTorrentForResultURL', RequestTorrentForResultURL)],

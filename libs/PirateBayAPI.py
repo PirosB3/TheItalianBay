@@ -103,7 +103,8 @@ class PirateBayAPI():
 		page = self.__fetch(self.uri + url)
 		
 		# Parse result
-		return self.__parseDescriptionPage(page)
+		torrent_url = self.__parseDescriptionPage(page)['torrent_url']
+		return self.__fetch(torrent_url)
 	
 	
 	def requestResultsforTop100(self, filter="none"):
