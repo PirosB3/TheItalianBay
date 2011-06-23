@@ -11,6 +11,8 @@ class RootHandler(webapp.RequestHandler):
     def get(self):
         self.response.out.write(template.render(TEMPLATE_PATH + 'index.html', {}))
 
+# TORRENT SEARCH HANDLERS
+
 # GET /requestResultsForValue?value=spider+man&filter=video
 class RequestResultsForValueHandler(webapp.RequestHandler):
     def get(self):
@@ -25,9 +27,15 @@ class RequestResultsForValueHandler(webapp.RequestHandler):
         if filter == '':
             filter = 'none'
             
+        orderBy = self.request.get('orderby')
+        if orderBy == '':
+            orderBy = 'SE'
+            
         # Render Response
-        results = PirateBayAPI().requestResultsForValue(value=value, filter=filter)
-        self.response.out.write(template.render(TEMPLATE_PATH + 'search-results.html', {'results' : results, 'original_query' : value}))
+        results = PirateBayAPI().requestResultsForValue(value=value, filter=filter, orderBy=orderBy)
+        # results = [{'title' : 'a', 'permalink' : 'a', 'SE' : 'a', 'LE' : 'a'}]
+        base_url = self.request.path + '?value=%s&filter=%s' % (value, filter)
+        self.response.out.write(template.render(TEMPLATE_PATH + 'search-results.html', {'results' : results, 'original_query' : value, 'sortable' : True, 'base_url' : base_url}))
 
 # GET /requestResultsforTop100?filter=video
 class RequestResultsforTop100(webapp.RequestHandler):
@@ -37,7 +45,11 @@ class RequestResultsforTop100(webapp.RequestHandler):
             filter = 'none'
         
         results = PirateBayAPI().requestResultsforTop100(filter=filter)
-        self.response.out.write(template.render(TEMPLATE_PATH + 'search-results.html', {'results' : results, 'original_query' : ''}))
+        # results = [{'title' : 'a', 'permalink' : 'a', 'SE' : 'a', 'LE' : 'a'}]
+        base_url = self.request.path + '?filter=%s' % filter
+        self.response.out.write(template.render(TEMPLATE_PATH + 'search-results.html', {'results' : results, 'original_query' : '', 'sortable' : True, 'base_url' : base_url}))
+
+# END TORRENT SEARCH HANDLERS
 
 # GET /requestTorrentForResultURL?url=/torrent/5945000/Call.of.Duty.Black.Ops-SKIDROW-[tracker.BTARENA.org].iso
 class RequestTorrentForResultURL(webapp.RequestHandler):

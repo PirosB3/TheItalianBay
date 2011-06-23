@@ -27,10 +27,13 @@
 		<table id="results" width="960" border="1"> 
 			<thead id="results-head">
 				<tr>
-					<th scope="col">Title</th>
-					<th scope="col">Size</th>
-					<th scope="col">SE</th>
-					<th scope="col">LE</th>
+					{% if sortable %}
+						OKAY
+						<th scope="col"><a href="{{ base_url }}&orderby=title">Title</a></th>
+						<th scope="col"><a href="{{ base_url }}&orderby=size">Size</a></th>
+						<th scope="col"><a href="{{ base_url }}&orderby=SE">SE</a></th>
+						<th scope="col"><a href="{{ base_url }}&orderby=LE">LE</a></th>
+					{% endif %}
 				</tr>
 			</thead>
 			<tbody>
