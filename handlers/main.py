@@ -33,7 +33,6 @@ class RequestResultsForValueHandler(webapp.RequestHandler):
             
         # Render Response
         results = PirateBayAPI().requestResultsForValue(value=value, filter=filter, orderBy=orderBy)
-        # results = [{'title' : 'a', 'permalink' : 'a', 'SE' : 'a', 'LE' : 'a'}]
         base_url = self.request.path + '?value=%s&filter=%s' % (value, filter)
         self.response.out.write(template.render(TEMPLATE_PATH + 'search-results.html', {'results' : results, 'original_query' : value, 'sortable' : True, 'base_url' : base_url}))
 
@@ -45,7 +44,6 @@ class RequestResultsforTop100(webapp.RequestHandler):
             filter = 'none'
         
         results = PirateBayAPI().requestResultsforTop100(filter=filter)
-        # results = [{'title' : 'a', 'permalink' : 'a', 'SE' : 'a', 'LE' : 'a'}]
         base_url = self.request.path + '?filter=%s' % filter
         self.response.out.write(template.render(TEMPLATE_PATH + 'search-results.html', {'results' : results, 'original_query' : '', 'sortable' : False}))
 
