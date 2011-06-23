@@ -32,6 +32,11 @@
 						<th scope="col"><a href="{{ base_url }}&orderby=size">Size</a></th>
 						<th scope="col"><a href="{{ base_url }}&orderby=SE">SE</a></th>
 						<th scope="col"><a href="{{ base_url }}&orderby=LE">LE</a></th>
+					{% else %}
+						<th scope="col">Title</th>
+						<th scope="col">Size</th>
+						<th scope="col">SE</th>
+						<th scope="col">LE</th>
 					{% endif %}
 				</tr>
 			</thead>

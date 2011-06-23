@@ -47,7 +47,7 @@ class RequestResultsforTop100(webapp.RequestHandler):
         results = PirateBayAPI().requestResultsforTop100(filter=filter)
         # results = [{'title' : 'a', 'permalink' : 'a', 'SE' : 'a', 'LE' : 'a'}]
         base_url = self.request.path + '?filter=%s' % filter
-        self.response.out.write(template.render(TEMPLATE_PATH + 'search-results.html', {'results' : results, 'original_query' : '', 'sortable' : True, 'base_url' : base_url}))
+        self.response.out.write(template.render(TEMPLATE_PATH + 'search-results.html', {'results' : results, 'original_query' : '', 'sortable' : False}))
 
 # END TORRENT SEARCH HANDLERS
 
