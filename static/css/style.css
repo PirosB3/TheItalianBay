@@ -232,7 +232,7 @@ header{
     color: #932B1B;
 }
 
-#results-head a{
+#results-head a, #results-head a:visited{
     text-decoration: underline;
     color: white;
 }
