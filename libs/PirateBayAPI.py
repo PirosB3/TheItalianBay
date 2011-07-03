@@ -120,7 +120,11 @@ class PirateBayAPI():
 		call = "%s/recent" % self.uri
 		result = self.__fetch(call)
 		
-		return self.__parseResult(result)
+        # Fetch results array and trim last value
+		torrentArray= self.__parseResult(result)
+		del torrentArray[-1]
+		
+		return torrentArray
 	
 	def requestResultsForValue(self, value, orderBy= 'SE', filter = 'none'):
 		"""return an array of results given a value as input, optional values are filter and orderBy"""
