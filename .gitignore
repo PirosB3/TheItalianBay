@@ -1,7 +1,5 @@
 /.DS_Store
 /libs/__init__.pyc
 /libs/BeautifulSoup.pyc
-/PirateBayAPI.pyc
-static/.DS_Store
-
 libs/PirateBayAPI.pyc
+static/.DS_Store
