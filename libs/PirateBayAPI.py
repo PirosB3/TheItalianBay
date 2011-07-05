@@ -85,18 +85,6 @@ def __fetch(call):
 	if (result == None): raise Exception("There was an error fetching the url: " + call)
 	
 	return result
-
-def __parseDescriptionPage(page):
-	"""returns a dictionary with details from the page"""
-	parser = BeautifulSoup(page)
-	results = {}
-	
-	# Get torrent url
-	url = parser.find('div', {'class' : 'download'}).find('a')['href']
-	results['torrent_url'] = url
-	
-	# return data
-	return results
 	
 def requestTorrentForResultURL(url):
 	"""return a url leading to torrent giving a description url as input"""
@@ -105,8 +93,9 @@ def requestTorrentForResultURL(url):
 	# Fetch description page
 	page = __fetch(uri + url)
 	
-	# Parse result
-	torrent_url = __parseDescriptionPage(page)['torrent_url']
+	parser = BeautifulSoup(page)
+	torrent_url = parser.find('div', {'class' : 'download'}).find('a')['href']
+	
 	return __fetch(torrent_url)
 
 
