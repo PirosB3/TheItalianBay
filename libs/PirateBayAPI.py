@@ -15,6 +15,8 @@ from re import findall
 
 from BeautifulSoup import BeautifulSoup
 
+import logging
+
 
 """This component is used to generate results for thepiratebay.org"""
 uri = 'http://thepiratebay.org'
@@ -25,21 +27,24 @@ filterBy = [{'string' : 'audio', 'value' : 100}, {'string' : 'video', 'value' : 
 urlfetch_fetch = urlfetch.fetch
 
 def CacheControlled(function):
-    """this function should be called by each API call, it's use is to return cached data or cache when possible"""
-    def wrapper(*args, **kwargs):
-        unique_string = repr((args, kwargs))
-        
-        # check if in cache, if it is just return the result
-        cached_result = memcache.get(unique_string, function.__name__)
-        if cached_result is not None:
-            return cached_result
-            
-        # Let's run the function and cache it ;)
-        result = function(*args, **kwargs)
-        memcache.add(unique_string, result, 10, function.__name__)
-        
-        return result
-    return wrapper
+	"""this function should be called by each API call, it's use is to return cached data or cache when possible"""
+	def wrapper(*args, **kwargs):
+		unique_string = repr((args, kwargs))
+		
+		# check if in cache, if it is just return the result
+		cached_result = memcache.get(unique_string, function.__name__)
+		if cached_result is not None:
+			logging.debug("GOT CACHED: %s and %s" % (unique_string, function.__name__)) 
+			return cached_result
+			
+		# Let's run the function and cache it ;)
+		result = function(*args, **kwargs)
+		r = memcache.add(unique_string, result, 3600, 0, function.__name__)
+		
+		logging.debug("NEW CACHE: %s and %s" % (unique_string, function.__name__))
+		
+		return result
+	return wrapper
 
 def __getOrderByValue(value):
 	# Returns a value used from TPB to identify order by, defaults to name
