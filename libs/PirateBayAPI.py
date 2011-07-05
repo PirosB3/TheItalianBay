@@ -26,17 +26,17 @@ urlfetch_fetch = urlfetch.fetch
 
 def CacheControlled(function):
     """this function should be called by each API call, it's use is to return cached data or cache when possible"""
-    def wrapper(*args, **kwargs):
-        unique_string = repr((args, kwargs))
+    def wrapper(*args):
+        unique_string = args
         
         # check if in cache, if it is just return the result
-        cached_result = memcache.get(unique_string, function.__name__)
+        cached_result = memcache.get(unique_string)
         if cached_result is not None:
             return cached_result
             
         # Let's run the function and cache it ;)
-        result = function(*args, **kwargs)
-        memcache.add(unique_string, result, 10, function.__name__)
+        result = function(*args)
+        memcache.add(unique_string, result, 10)
         
         return result
     return wrapper
@@ -103,8 +103,7 @@ def __fetch(call):
 	if (result == None): raise Exception("There was an error fetching the url: " + call)
 	
 	return result
-
-@CacheControlled	
+	
 def requestTorrentForResultURL(url):
 	"""return a url leading to torrent giving a description url as input"""
 	if (url == ''): raise Exception("Please insert a valid value")
@@ -118,7 +117,6 @@ def requestTorrentForResultURL(url):
 	return __fetch(torrent_url)
 
 
-@CacheControlled
 def requestResultsforTop100(filter="none"):
 	"""returns an array of the top 100 torrents of a category, defaults to all"""
 	
@@ -127,7 +125,6 @@ def requestResultsforTop100(filter="none"):
 	
 	return __parseResult(result)
 
-@CacheControlled
 def requestResultsforRecentUploads():
 	# return an array of recently uploaded torrents
 	call = "%s/recent" % uri
@@ -139,7 +136,6 @@ def requestResultsforRecentUploads():
 	
 	return torrentArray
 
-@CacheControlled
 def requestResultsForValue(value, orderBy= 'SE', filter = 'none'):
 	"""return an array of results given a value as input, optional values are filter and orderBy"""
 	
