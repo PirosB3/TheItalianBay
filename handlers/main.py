@@ -4,7 +4,7 @@ from google.appengine.ext.webapp import util
 from google.appengine.ext.webapp import template
 
 from settings import TEMPLATE_PATH
-from libs.PirateBayAPI import PirateBayAPI
+from libs import PirateBayAPI
 
 # GET /
 class RootHandler(webapp.RequestHandler):
@@ -32,7 +32,7 @@ class RequestResultsForValueHandler(webapp.RequestHandler):
             orderBy = 'SE'
             
         # Render Response
-        results = PirateBayAPI().requestResultsForValue(value=value, filter=filter, orderBy=orderBy)
+        results = PirateBayAPI.requestResultsForValue(value=value, filter=filter, orderBy=orderBy)
         base_url = self.request.path + '?value=%s&filter=%s' % (value, filter)
         self.response.out.write(template.render(TEMPLATE_PATH + 'search-results.html', {'results' : results, 'original_query' : value, 'sortable' : True, 'base_url' : base_url}))
 
@@ -43,14 +43,14 @@ class RequestResultsforTop100(webapp.RequestHandler):
         if filter == '':
             filter = 'none'
         
-        results = PirateBayAPI().requestResultsforTop100(filter=filter)
+        results = PirateBayAPI.requestResultsforTop100(filter=filter)
         base_url = self.request.path + '?filter=%s' % filter
         self.response.out.write(template.render(TEMPLATE_PATH + 'search-results.html', {'results' : results, 'original_query' : '', 'sortable' : False}))
 
 # GET /requestResultsforRecentUploads
 class RequestResultsforRecentUploads(webapp.RequestHandler):
     def get(self):
-        results = PirateBayAPI().requestResultsforRecentUploads()
+        results = PirateBayAPI.requestResultsforRecentUploads()
         self.response.out.write(template.render(TEMPLATE_PATH + 'search-results.html', {'results' : results, 'original_query' : '', 'sortable' : False}))
 
 # END TORRENT SEARCH HANDLERS
@@ -62,7 +62,7 @@ class RequestTorrentForResultURL(webapp.RequestHandler):
         if url == '':
             return self.redirect('/')
         
-        fileURL = PirateBayAPI().requestTorrentForResultURL(url)
+        fileURL = PirateBayAPI.requestTorrentForResultURL(url)
         
         # Format response and return
         self.response.headers['Content-Disposition'] = 'attachment; filename=%s.torrent' % url
