@@ -1,5 +1,3 @@
-from google.appengine.api import memcache
-
 
 from google.appengine.ext import webapp
 from google.appengine.ext.webapp import util
@@ -71,13 +69,8 @@ class RequestTorrentForResultURL(webapp.RequestHandler):
         self.response.headers['Content-Type'] = "application/x-bittorent"
         self.response.out.write(fileURL)
 
-class CacheCheck(webapp.RequestHandler):
-    def get(self):
-        stats = memcache.get_stats()
-        self.response.out.write(str(stats))
-
 def main():
-    application = webapp.WSGIApplication([('/', RootHandler), ('/requestResultsForValue', RequestResultsForValueHandler), ('/requestResultsforTop100', RequestResultsforTop100), ('/requestTorrentForResultURL', RequestTorrentForResultURL), ('/requestResultsforRecentUploads', RequestResultsforRecentUploads), ('/cache', CacheCheck)],
+    application = webapp.WSGIApplication([('/', RootHandler), ('/requestResultsForValue', RequestResultsForValueHandler), ('/requestResultsforTop100', RequestResultsforTop100), ('/requestTorrentForResultURL', RequestTorrentForResultURL), ('/requestResultsforRecentUploads', RequestResultsforRecentUploads)],
                                          debug=False)
     util.run_wsgi_app(application)
 
