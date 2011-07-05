@@ -8,8 +8,11 @@ Written By PirosB3, http://pirosb3.com
 """
 
 from google.appengine.api import urlfetch
+from google.appengine.api import memcache
+
 from urllib import quote
 from re import findall
+from md5 import md5
 
 from BeautifulSoup import BeautifulSoup
 
@@ -22,6 +25,22 @@ filterBy = [{'string' : 'audio', 'value' : 100}, {'string' : 'video', 'value' : 
 
 urlfetch_fetch = urlfetch.fetch
 
+class CacheControlled(object):
+    """this function should be called by each API call, it's use is to return cached data or cache when possible"""
+    def __init__(self, function):
+        self.function = function
+    def __call__(self, *args):
+        # get unique hash
+        unique_hash = md5("{0}/{1}".format(self.function.__name__, args)).hexdigest()
+        
+        # check if in cache, if it is just return the result
+        cached_result = memcache.get(unique_hash)
+        if cached_result is not None:
+            return cached_result
+            
+        # Let's run the function and cache it ;)
+        result = self.function(*args)
+        memcache.add(unique_hash, result, 10)
 
 def __getOrderByValue(value):
 	# Returns a value used from TPB to identify order by, defaults to name
