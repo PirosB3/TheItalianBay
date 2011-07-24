@@ -34,7 +34,7 @@ class RequestResultsForValueHandler(webapp.RequestHandler):
         # Render Response
         results = PirateBayAPI.requestResultsForValue(value=value, filter=filter, orderBy=orderBy)
         base_url = self.request.path + '?value=%s&filter=%s' % (value, filter)
-        self.response.out.write(template.render(TEMPLATE_PATH + 'search-results.html', {'results' : results, 'original_query' : value, 'sortable' : True, 'base_url' : base_url}))
+        self.response.out.write(template.render(TEMPLATE_PATH + 'search-results.html', {'results' : results, 'title' : "Results for: %s" % value, 'sortable' : True, 'base_url' : base_url}))
 
 # GET /requestResultsforTop100?filter=video
 class RequestResultsforTop100(webapp.RequestHandler):
@@ -45,13 +45,17 @@ class RequestResultsforTop100(webapp.RequestHandler):
         
         results = PirateBayAPI.requestResultsforTop100(filter=filter)
         base_url = self.request.path + '?filter=%s' % filter
-        self.response.out.write(template.render(TEMPLATE_PATH + 'search-results.html', {'results' : results, 'original_query' : '', 'sortable' : False}))
+        
+        title = "Top 100"
+        if filter != 'none': title += " in %s" % filter
+        
+        self.response.out.write(template.render(TEMPLATE_PATH + 'search-results.html', {'results' : results, 'title' : title, 'sortable' : False}))
 
 # GET /requestResultsforRecentUploads
 class RequestResultsforRecentUploads(webapp.RequestHandler):
     def get(self):
         results = PirateBayAPI.requestResultsforRecentUploads()
-        self.response.out.write(template.render(TEMPLATE_PATH + 'search-results.html', {'results' : results, 'original_query' : '', 'sortable' : False}))
+        self.response.out.write(template.render(TEMPLATE_PATH + 'search-results.html', {'results' : results, 'title' : 'Recent uploads', 'sortable' : False}))
 
 # END TORRENT SEARCH HANDLERS
 
