@@ -3,3 +3,4 @@
 /libs/BeautifulSoup.pyc
 libs/PirateBayAPI.pyc
 static/.DS_Store
+*.pyc
