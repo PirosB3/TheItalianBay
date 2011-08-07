@@ -1,7 +1,7 @@
 {% extends "skeleton.html" %}
 
 {% block title %}
-	{{ title }}
+	Results for {{ original_query }}
 {% endblock %}
 
 {% block main %}
@@ -28,10 +28,10 @@
 			<thead id="results-head">
 				<tr>
 					{% if sortable %}
-						<th scope="col"><a href="{{ base_url }}o/title/">Title</a></th>
-						<th scope="col"><a href="{{ base_url }}o/size/">Size</a></th>
-						<th scope="col"><a href="{{ base_url }}o/SE/">SE</a></th>
-						<th scope="col"><a href="{{ base_url }}o/LE/">LE</a></th>
+						<th scope="col"><a href="{{ base_url }}&orderby=title">Title</a></th>
+						<th scope="col"><a href="{{ base_url }}&orderby=size">Size</a></th>
+						<th scope="col"><a href="{{ base_url }}&orderby=SE">SE</a></th>
+						<th scope="col"><a href="{{ base_url }}&orderby=LE">LE</a></th>
 					{% else %}
 						<th scope="col">Title</th>
 						<th scope="col">Size</th>
