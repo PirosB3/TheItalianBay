@@ -21,8 +21,22 @@ import logging
 """This component is used to generate results for thepiratebay.org"""
 uri = 'http://thepiratebay.org'
 
-orderBy= [{'string' : 'SE', 'value' : 7}, {'string' : 'LE' , 'value' : 9}, {'string' : 'name' , 'value' : 1}, {'string' : 'type' , 'value' : 13}, {'string' : 'size' , 'value' : 5}]
-filterBy = [{'string' : 'audio', 'value' : 100}, {'string' : 'video', 'value' : 200}, {'string' : 'audio', 'value' : 100}, {'string' : 'applications', 'value' : 300}, {'string' : 'games', 'value' : 400}, {'string' : 'other', 'value' : 600}, {'string' : 'none', 'value' : 0}]
+orderBy= [
+    {'string' : 'SE', 'value' : 7},
+    {'string' : 'LE' , 'value' : 9},
+    {'string' : 'name' , 'value' : 1},
+    {'string' : 'type' , 'value' : 13},
+    {'string' : 'size' , 'value' : 5}
+  ]
+filterBy = [
+    {'string' : 'audio', 'value' : 100},
+    {'string' : 'video', 'value' : 200},
+    {'string' : 'audio', 'value' : 100},
+    {'string' : 'applications', 'value' : 300},
+    {'string' : 'games', 'value' : 400},
+    {'string' : 'other', 'value' : 600},
+    {'string' : 'none', 'value' : 0}
+  ]
 
 urlfetch_fetch = urlfetch.fetch
 
