@@ -75,7 +75,6 @@ def main():
     application = webapp.WSGIApplication([
     ('/s/(.*)/f/(.*)/o/(.*)/', RequestResultsForValueHandler), ('/s/(.*)/f/(.*)/', RequestResultsForValueHandler), ('/s/(.*)/', RequestResultsForValueHandler),
     ('/top/f/(.*)/', RequestResultsforTop100), ('/top/', RequestResultsforTop100),
-    ('/requestTorrentForResultURL', RequestTorrentForResultURL), ('/requestResultsforRecentUploads', RequestResultsforRecentUploads),
     ('/', RootHandler)],
     debug=False)
     util.run_wsgi_app(application)
