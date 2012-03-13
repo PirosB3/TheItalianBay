@@ -133,7 +133,7 @@ def requestMagnetLinkForResultURL(url):
 	page = __fetch(uri + url)
 	
 	parser = BeautifulSoup(page)
-	torrent_url = parser.find('div', {'class' : 'download'}).find('a')['href']
+	torrent_url = parser.find('div', {'class' : 'download'}).findAll('a')[1]['href']
 	
 	return torrent_url
 
