@@ -43,7 +43,7 @@
 			<tbody>
 				{% for result in results %}
 					<tr>
-						<td><a href="/requestTorrentForResultURL?url={{ result.permalink }}">{{ result.title}}</a></td>
+						<td><a href="{{ result.permalink }}">{{ result.title}}</a></td>
 						<td><center>{{ result.size }}</center></td>
 						<td><center>{{ result.SE }}</center></td>
 						<td><center>{{ result.LE }}</center></td>

@@ -19,7 +19,7 @@ import logging
 
 
 """This component is used to generate results for thepiratebay.org"""
-uri = 'http://thepiratebay.org'
+uri = 'http://thepiratebay.se'
 
 orderBy= [
     {'string' : 'SE', 'value' : 7},
@@ -99,8 +99,8 @@ def __parseResult(result):
 		for position, item in enumerate(elements):
 			if position == 1:
 				item_find = item.find
-				link = item_find("a", { "class" : "detLink" })
-				current['title'] = link.text
+				link = item.findAll('a')[1]
+				current['title'] = item_find("a", { "class" : "detLink" }).text
 				current['permalink'] = link['href']
 				
 				# Use regex to get size
@@ -125,7 +125,7 @@ def __fetch(call):
 	return result
 
 @CacheControlled	
-def requestTorrentForResultURL(url):
+def requestMagnetLinkForResultURL(url):
 	"""return a url leading to torrent giving a description url as input"""
 	if (url == ''): raise Exception("Please insert a valid value")
 	
@@ -135,7 +135,7 @@ def requestTorrentForResultURL(url):
 	parser = BeautifulSoup(page)
 	torrent_url = parser.find('div', {'class' : 'download'}).find('a')['href']
 	
-	return __fetch(torrent_url)
+	return torrent_url
 
 
 @CacheControlled

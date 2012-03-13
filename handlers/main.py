@@ -71,20 +71,6 @@ class RequestResultsforRecentUploads(webapp.RequestHandler):
 
 # END TORRENT SEARCH HANDLERS
 
-# GET /requestTorrentForResultURL?url=/torrent/5945000/Call.of.Duty.Black.Ops-SKIDROW-[tracker.BTARENA.org].iso
-class RequestTorrentForResultURL(webapp.RequestHandler):
-    def get(self):
-        url = self.request.get('url')
-        if url == '':
-            return self.redirect('/')
-        
-        fileURL = PirateBayAPI.requestTorrentForResultURL(url)
-        
-        # Format response and return
-        self.response.headers['Content-Disposition'] = 'attachment; filename=%s.torrent' % url
-        self.response.headers['Content-Type'] = "application/x-bittorent"
-        self.response.out.write(fileURL)
-
 def main():
     application = webapp.WSGIApplication([
     ('/s/(.*)/f/(.*)/o/(.*)/', RequestResultsForValueHandler), ('/s/(.*)/f/(.*)/', RequestResultsForValueHandler), ('/s/(.*)/', RequestResultsForValueHandler),
