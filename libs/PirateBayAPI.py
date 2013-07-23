@@ -31,7 +31,10 @@ orderBy= [
 filterBy = [
     {'string' : 'audio', 'value' : 100},
     {'string' : 'video', 'value' : 200},
-    {'string' : 'audio', 'value' : 100},
+    {'string' : 'movies', 'value' : 201},
+    {'string' : 'tv', 'value' : 205},
+    {'string' : 'hdmovies', 'value' : 207},
+    {'string' : 'hdtv', 'value' : 208},
     {'string' : 'applications', 'value' : 300},
     {'string' : 'games', 'value' : 400},
     {'string' : 'other', 'value' : 600},
