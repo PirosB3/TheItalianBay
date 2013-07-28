@@ -1,7 +1,8 @@
 application: theitalianbay
 version: 1
-runtime: python
+runtime: python27
 api_version: 1
+threadsafe: true
 
 handlers:
 - url: /static
@@ -14,7 +15,13 @@ handlers:
   static_files: static/robots.txt
   upload: static/robots.txt
 - url: .*
-  script: handlers/main.py
+  script: handlers.main.app
   
 builtins:
 - remote_api: on
+
+libraries:
+- name: webapp2
+  version: latest
+- name: jinja2
+  version: latest
