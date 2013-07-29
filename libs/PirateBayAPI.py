@@ -11,38 +11,47 @@ from google.appengine.api import urlfetch
 from google.appengine.api import memcache
 
 from urllib import quote
-from re import findall
+import re
 
 from BeautifulSoup import BeautifulSoup
 
 import logging
+import os
 
 
 """This component is used to generate results for thepiratebay.org"""
-uri = 'http://thepiratebay.se'
+URI = 'http://thepiratebay.se'
+SIZE_RE = re.compile('Size\s+(\d+(?:\.\d+)?\s+[A-Za-z]+)')
 
-orderBy= [
-    {'string' : 'SE', 'value' : 7},
-    {'string' : 'LE' , 'value' : 9},
-    {'string' : 'name' , 'value' : 1},
-    {'string' : 'type' , 'value' : 13},
-    {'string' : 'size' , 'value' : 5}
-  ]
-filterBy = [
-    {'string' : 'audio', 'value' : 100},
-    {'string' : 'video', 'value' : 200},
-    {'string' : 'audio', 'value' : 100},
-    {'string' : 'applications', 'value' : 300},
-    {'string' : 'games', 'value' : 400},
-    {'string' : 'other', 'value' : 600},
-    {'string' : 'none', 'value' : 0}
-  ]
+ORDER_BY = {
+    'SE'   : 7,
+    'LE'   : 9,
+    'name' : 1,
+    'type' : 13,
+    'size' : 5
+}
+
+FILTER_BY = {
+    'audio'        : 100,
+    'video'        : 200,
+    'audio'        : 100,
+    'applications' : 300,
+    'games'        : 400,
+    'other'        : 600,
+    'none'         : 0
+}
 
 urlfetch_fetch = urlfetch.fetch
 
 def CacheControlled(function):
 	"""this function should be called by each API call, it's use is to return cached data or cache when possible"""
 	def wrapper(*args, **kwargs):
+                # If cache is disabled (testing) we will just call the API
+                cache_disabled = 'DISABLE_CACHE' in os.environ
+                if cache_disabled:
+                    return function(*args, **kwargs)
+
+                # Generate a function unique ID
 		unique_string = repr((args, kwargs))
 		function__name__ = function.__name__
 		
@@ -61,24 +70,15 @@ def CacheControlled(function):
 		return result
 	return wrapper
 
-def __getOrderByValue(value):
-	# Returns a value used from TPB to identify order by, defaults to name
-	for f in orderBy:
-		if value == f['string']:
-			return f['value']
-	return 1
-	
-def __getFilterByValue(value):
-	# Returns a value used from TPB to identify filter by, defaults to none
-	for f in filterBy:
-		if value == f['string']:
-			return f['value']
-	return 0
+def __lookupConstant(lookup, key, fallback):
+    try:
+        return lookup[key]
+    except KeyError:
+        return fallback
 
 def __parseResult(result):
 	"""Returns a list of results, each result has: name, link, SE, LE"""
 	parser = BeautifulSoup(result)
-	regex = 'Size\s+(\d+(?:\.\d+)?\s+[A-Za-z]+)'
 	results = []
 	results_append = results.append
 	
@@ -105,7 +105,7 @@ def __parseResult(result):
 				
 				# Use regex to get size
 				string = item_find("font", { "class" : "detDesc" }).text
-				current['size'] = findall(regex, string.replace("&nbsp;", ' '))[0]
+				current['size'] = SIZE_RE.findall(string.replace("&nbsp;", ' '))[0]
 			if position == 2:
 				current['SE'] = item.text
 			if position == 3:
@@ -114,8 +114,7 @@ def __parseResult(result):
 		# Validate iteration has been done correctly
 	
 	# Remove item at index 0
-	del results[0]
-	return results
+        return results[1:]
 
 def __fetch(call):
 	"""returns content from URL"""
@@ -130,7 +129,7 @@ def requestMagnetLinkForResultURL(url):
 	if (url == ''): raise Exception("Please insert a valid value")
 	
 	# Fetch description page
-	page = __fetch(uri + url)
+	page = __fetch(URI + url)
 	
 	parser = BeautifulSoup(page)
 	torrent_url = parser.find('div', {'class' : 'download'}).findAll('a')[1]['href']
@@ -139,35 +138,35 @@ def requestMagnetLinkForResultURL(url):
 
 
 @CacheControlled
-def requestResultsforTop100(filter="none"):
+def requestResultsforTop100(filter_name="none"):
 	"""returns an array of the top 100 torrents of a category, defaults to all"""
 	
-	call ="%s/top/%s" % (uri, __getFilterByValue(filter))
+	call ="%s/top/%s" % (URI, __lookupConstant(FILTER_BY, filter_name, 0))
 	result = __fetch(call)
 	
-	return __parseResult(result)
+        return __parseResult(result)
 
 @CacheControlled
 def requestResultsforRecentUploads():
 	# return an array of recently uploaded torrents
-	call = "%s/recent" % uri
+	call = "%s/recent" % URI
 	result = __fetch(call)
 	
 	# Fetch results array and trim last value
 	torrentArray= __parseResult(result)
-	del torrentArray[-1]
-	
-	return torrentArray
+        return torrentArray[:len(torrentArray)-1]
 
 @CacheControlled
-def requestResultsForValue(value, orderBy= 'SE', filter = 'none'):
+def requestResultsForValue(value, orderBy= 'SE', filter_name = 'none'):
 	"""return an array of results given a value as input, optional values are filter and orderBy"""
 	
 	# validate
 	if (value == ''): raise Exception("Please insert a valid value")
 	
 	# Generate URI and make call to ThePirateBay
-	call = "%s/search/%s/0/%s/%s" % (uri, quote(value), __getOrderByValue(orderBy), __getFilterByValue(filter))
+        call = "%s/search/%s/0/%s/%s" % (URI, quote(value),
+            __lookupConstant(ORDER_BY, orderBy, 1),
+            __lookupConstant(FILTER_BY, filter_name, 0))
 	result = __fetch(call)
 	
 	return __parseResult(result)

@@ -3,10 +3,10 @@ import os
 import webapp2
 import jinja2
 
+from urllib import url2pathname
 from settings import TEMPLATE_PATH
 from libs import PirateBayAPI
 
-from urllib import url2pathname
 
 JINJA_ENVIRONMENT = jinja2.Environment(
     loader=jinja2.FileSystemLoader(TEMPLATE_PATH),
@@ -16,9 +16,11 @@ def _render_template(template_name, args= {}):
     template = JINJA_ENVIRONMENT.get_template(template_name)
     return template.render(args)
 
+
 # GET /
 class RootHandler(webapp2.RequestHandler):
     def get(self):
+        print webapp2.__file__
         self.response.out.write(_render_template('index.html'))
     def post(self):
         """POSTing on root I can redirect to a pretty url without having to add trouble javascript on the client side"""
@@ -80,6 +82,7 @@ class RequestResultsforTop100(webapp2.RequestHandler):
              'sortable' : False
         })
 
+
 # GET /requestResultsforRecentUploads
 class RequestResultsforRecentUploads(webapp2.RequestHandler):
     def get(self):
@@ -89,6 +92,7 @@ class RequestResultsforRecentUploads(webapp2.RequestHandler):
             'title' : 'Recent uploads',
             'sortable' : False
         })
+
 
 # END TORRENT SEARCH HANDLERS
 app= webapp2.WSGIApplication([
