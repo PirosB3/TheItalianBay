@@ -6,11 +6,11 @@ import unittest
 class PirateBayTestCase(unittest.TestCase):
 
     def test_top_100_work(self):
-        result = PirateBayAPI.requestResultsforTop100()
+        result = PirateBayAPI.requestResultsforTop100(disable_cache=True)
         self.assertEqual(100, len(result))
 
     def test_recent_word(self):
-        result = PirateBayAPI.requestResultsforRecentUploads()
+        result = PirateBayAPI.requestResultsforRecentUploads(disable_cache=True)
         self.assertEqual(30, len(result))
 
 
