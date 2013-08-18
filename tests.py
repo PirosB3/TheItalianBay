@@ -31,8 +31,5 @@ if __name__ == '__main__':
     remote_api_stub.ConfigureRemoteApi(None, '/_ah/remote_api', 
         lambda: ('pirosb3@gmail.com', os.environ['TIB_PASSWORD']), 'theitalianbay.appspot.com')
 
-    # Disable caching
-    os.environ['DISABLE_CACHE'] = 'TRUE'
-
     # Run tests
     unittest.main()
