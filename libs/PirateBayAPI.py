@@ -57,7 +57,7 @@ def CacheControlled(function):
 		
 		# check if in cache, if it is just return the result
 		cached_result = memcache.get(unique_string, function__name__)
-		if cached_result is not None:
+		if cached_result:
 			logging.debug("GOT CACHED: %s and %s" % (unique_string, function__name__)) 
 			return cached_result
 			
@@ -119,7 +119,8 @@ def __parseResult(result):
 def __fetch(call):
 	"""returns content from URL"""
 	result = urlfetch_fetch(call).content
-	if (result == None): raise Exception("There was an error fetching the url: " + call)
+	if not result:
+            raise Exception("There was an error fetching the url: " + call)
 	
 	return result
 
