@@ -86,13 +86,11 @@ if DEBUG_ENABLED:
 
 # END TORRENT SEARCH HANDLERS
 app= webapp2.WSGIApplication([
-        ('/tasks/cache_warming', CacheWarmingHandler),
-        ('/s/(.*)/f/(.*)/o/(.*)/', RequestResultsForValueHandler),
-        ('/s/(.*)/f/(.*)/', RequestResultsForValueHandler),
-        ('/s/(.*)/', RequestResultsForValueHandler),
-        ('/top/f/(.*)/', RequestResultsforTop100),
-        ('/top/', RequestResultsforTop100),
-        ('/', RootHandler)
+        ('/api/s/(.*)/f/(.*)/o/(.*)/', RequestResultsForValueHandler),
+        ('/api/s/(.*)/f/(.*)/', RequestResultsForValueHandler),
+        ('/api/s/(.*)/', RequestResultsForValueHandler),
+        ('/api/top/f/(.+)/', RequestResultsforTop100),
+        ('/api/top/', RequestResultsforTop100)
     ],
     debug=DEBUG_ENABLED
 )
