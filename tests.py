@@ -15,6 +15,11 @@ class PirateBayTestCase(unittest.TestCase):
             for key in ['title', 'href', 'size', 'SE', 'LE']:
                 self.assertTrue(result[key])
 
+    def test_has_magnet_links(self):
+        results = PirateBayAPI.requestResultsforTop100(disable_cache=True)
+        for result in results:
+            self.assertEqual(result['href'][:7], 'magnet:')
+
     def test_recent_word(self):
         result = PirateBayAPI.requestResultsforRecentUploads(disable_cache=True)
         self.assertEqual(29, len(result))

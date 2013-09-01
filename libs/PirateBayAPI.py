@@ -22,6 +22,7 @@ import os
 """This component is used to generate results for thepiratebay.org"""
 URI = 'http://thepiratebay.se'
 SIZE_RE = re.compile('Size\s+(\d+(?:\.\d+)?\s+[A-Za-z]+)')
+MAGNET_RE = re.compile('^magnet:')
 
 ORDER_BY = {
     'SE'   : 7,
@@ -87,10 +88,11 @@ def __parseResult(result):
     def __processSingleRow(tr):
         detLink = tr.find("a", { "class" : "detLink" })
         detDesc = tr.find("font", { "class" : "detDesc" })
+        hrefTag= tr.find(href=MAGNET_RE)
         se, le = tr.findAll('td')[2:4]
         return {
             'title': detLink.text,
-            'href': detLink['href'],
+            'href': hrefTag['href'],
             'size': SIZE_RE.findall(detDesc.text.replace("&nbsp;", ' '))[0],
             'SE': se.text,
             'LE': le.text
