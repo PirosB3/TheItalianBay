@@ -1,0 +1,4 @@
+cron:
+- description: cache warming for top 100
+  url: /tasks/cache_warming
+  schedule: every 24 hours

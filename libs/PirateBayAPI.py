@@ -83,42 +83,31 @@ def __lookupConstant(lookup, key, fallback):
 
 def __parseResult(result):
     """Returns a list of results, each result has: name, link, SE, LE"""
+
+    def __processSingleRow(tr):
+        detLink = tr.find("a", { "class" : "detLink" })
+        detDesc = tr.find("font", { "class" : "detDesc" })
+        se, le = tr.findAll('td')[2:4]
+        return {
+            'title': detLink.text,
+            'href': detLink['href'],
+            'size': SIZE_RE.findall(detDesc.text.replace("&nbsp;", ' '))[0],
+            'SE': se.text,
+            'LE': le.text
+        }
+
     parser = BeautifulSoup(result)
-    results = []
-    results_append = results.append
 
     # find results within table #searchResult and get a list of rows
     resultsTable = parser.find('table', {'id' : 'searchResult'})
-    if resultsTable == None: return []
+    if not resultsTable:
+        return []
+
+    # Remove all the faulty rows
+    resultsRows = filter(lambda tr: len(tr.findAll('td')) == 4, resultsTable.findAll("tr")[1:])
 
     # Iterate over each row and store results in list
-    resultRows = resultsTable.findAll("tr")
-    if (len(resultRows) == 0 or resultRows == None): return {}
-    for result in resultRows:
-
-        # Get all defenitions in row and initialize empty dictionary
-        elements = result.findAll('td')
-        current = {}
-
-        # Iterate!
-        for position, item in enumerate(elements):
-            if position == 1:
-                item_find = item.find
-                link = item.findAll('a')[1]
-                current['title'] = item_find("a", { "class" : "detLink" }).text
-                current['permalink'] = link['href']
-
-                # Use regex to get size
-                string = item_find("font", { "class" : "detDesc" }).text
-                current['size'] = SIZE_RE.findall(string.replace("&nbsp;", ' '))[0]
-                if position == 2:
-                    current['SE'] = item.text
-                if position == 3:
-                    current['LE'] = item.text
-        results_append(current)
-
-    # Remove item at index 0
-    return results[1:]
+    return map(__processSingleRow, resultsRows)
 
 def __fetch(call):
     """returns content from URL"""
@@ -166,7 +155,8 @@ def requestResultsForValue(value, orderBy= 'SE', filter_name = 'none'):
     """return an array of results given a value as input, optional values are filter and orderBy"""
 
     # validate
-    if (value == ''): raise Exception("Please insert a valid value")
+    if (value == ''):
+        raise Exception("Please insert a valid value")
 
     # Generate URI and make call to ThePirateBay
     call = "%s/search/%s/0/%s/%s" % (URI, quote(value),

@@ -1,3 +1,5 @@
 *.pyc
 /.DS_Store
 static/.DS_Store
+activate_auth
+app_dev.yaml
