@@ -35,20 +35,26 @@ class RootHandler(webapp2.RequestHandler):
 class RequestResultsForValueHandler(webapp2.RequestHandler):
 
     @json_response
-    def get(self, value, filter='none', orderby='SE'):
-         if not value:
-             return self.redirect('/')
+    def get(self):
+
+        value = self.request.get('q', None)
+        filter_name = self.request.get('filter', None)
+        order_by = self.request.get('order', None)
+
+        if not value:
+            return self.redirect('/')
          
-         return PirateBayAPI.requestResultsForValue(value=url2pathname(value),
-            filter_name=filter, orderBy=orderby)
+        return PirateBayAPI.requestResultsForValue(value=url2pathname(value),
+           filter_name=filter_name, orderBy=order_by)
 
 
 # GET /requestResultsforTop100?filter=video
 class RequestResultsforTop100(webapp2.RequestHandler):
 
     @json_response
-    def get(self, filter='none'):
-        return PirateBayAPI.requestResultsforTop100(filter_name=filter)
+    def get(self):
+        filter_name = self.request.get('filter', 'none')
+        return PirateBayAPI.requestResultsforTop100(filter_name=filter_name)
 
 
 # GET /requestResultsforRecentUploads
@@ -86,10 +92,8 @@ if DEBUG_ENABLED:
 
 # END TORRENT SEARCH HANDLERS
 app= webapp2.WSGIApplication([
-        ('/api/s/(.*)/f/(.*)/o/(.*)/', RequestResultsForValueHandler),
-        ('/api/s/(.*)/f/(.*)/', RequestResultsForValueHandler),
-        ('/api/s/(.*)/', RequestResultsForValueHandler),
-        ('/api/top/f/(.+)/', RequestResultsforTop100),
+        ('/api/search', RequestResultsForValueHandler),
+        ('/api/top100', RequestResultsforTop100),
         ('/api/top/', RequestResultsforTop100)
     ],
     debug=DEBUG_ENABLED
