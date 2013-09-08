@@ -41,7 +41,15 @@ app.factory('$api', function($http) {
 	}
 });
 
-app.controller('ResultsController', function($scope, $routeParams, $location, $api) {
+app.controller('ResultsController', function($scope, $routeParams, $location, $api, $query) {
+
+	$scope.orderBy = function(value) {
+		return $location.path($query.generateSearchPath({
+			query : $routeParams['q'],
+			filter: $routeParams['filter'],
+			order: value
+		}));
+	};
 
 	var query = $routeParams['q']
 	if (query) {

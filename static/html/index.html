@@ -51,13 +51,13 @@
 		
 			<table ng-show="data" id="results" width="960" border="1"> 
 				<thead id="results-head">
-					<tr ng-show="sortable">
-							<th scope="col"><a href="{{ base_url }}o/title/">Title</a></th>
-							<th scope="col"><a href="{{ base_url }}o/size/">Size</a></th>
-							<th scope="col"><a href="{{ base_url }}o/SE/">SE</a></th>
-							<th scope="col"><a href="{{ base_url }}o/LE/">LE</a></th>
+					<tr ng-show="query">
+							<th scope="col"><a ng-click="orderBy('title')">Title</a></th>
+							<th scope="col"><a ng-click="orderBy('size')">Size</a></th>
+							<th scope="col"><a ng-click="orderBy('SE')">SE</a></th>
+							<th scope="col"><a ng-click="orderBy('LE')">LE</a></th>
 					</tr>
-					<tr ng-hide="sortable">
+					<tr ng-hide="query">
 							<th scope="col">Title</th>
 							<th scope="col">Size</th>
 							<th scope="col">SE</th>
