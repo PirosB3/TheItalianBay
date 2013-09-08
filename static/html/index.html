@@ -23,7 +23,7 @@
 	<a href="https://github.com/PirosB3/TheItalianBay"><img style="position: absolute; top: 0; left: 0; border: 0;" src="/static/img/ribbon.png" alt="Fork me on GitHub"></a>
 	<div id="container">
 		<header>
-			<h1 id="title"><a title="The Italian Bay" href="/"></a></h1>
+			<h1 id="title"><a title="The Italian Bay" href="/#/"></a></h1>
 		</header>
 
 		<div id="main" role="main">
@@ -47,7 +47,7 @@
 	</script>
 
 	<script type="text/ng-template" id="results.html">
-			<span class="search-box" search-term="{{ searchTerm || '' }}"></span>
+		<span class="search-box" search-filter="{{filter}}" search-term="{{query}}"></span>
 		
 			<table ng-show="data" id="results" width="960" border="1"> 
 				<thead id="results-head">
@@ -73,6 +73,8 @@
 						</tr>
 				</tbody>
 			</table>
+			<center ng-show="data.length == 0">No Results</center>
+			<center ng-show="!data">Loading</center>
 	</script>
 
 	<script type="text/ng-template" id="search-box.html">
@@ -109,7 +111,7 @@
 		<div id="top-100-section" class="section">
 			<h3 class="section-title">Browse Top 100</h3>
 			<div class="section-content">
-				<a href="#/top/">All</a>
+				<a href="#/top/f/all">All</a>
 				<a href="#/top/f/audio/">Audio</a>
 				<a href="#/top/f/video/">Video</a>
 				<a href="#/top/f/applications/">Applications</a>

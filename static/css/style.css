@@ -127,7 +127,9 @@ header{
 }
 
 #filter-field{
-    margin-top: 7px;
+		width: 345px;
+		margin: 0 auto;
+		margin-top: 10px;
 }
 
 #filter-field label{
