@@ -37,7 +37,7 @@ class RequestResultsForValueHandler(webapp2.RequestHandler):
     @json_response
     def get(self):
 
-        value = self.request.get('q', None)
+        value = self.request.get('query', None)
         filter_name = self.request.get('filter', None)
         order_by = self.request.get('order', None)
 

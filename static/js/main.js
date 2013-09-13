@@ -1,5 +1,5 @@
 var URL_TO_INTENT = {
-	'/search/'   :   { url: '/api/search', args: ['filter', 'q', 'order'] },
+	'/search/'   :   { url: '/api/search', args: ['filter', 'query', 'order'] },
 	'/top/f/' :   { url: '/api/top100', args: ['filter'] }
 }
 
@@ -11,7 +11,7 @@ app.factory('$query', function() {
 			var query = params['query'];
 			if (!query) throw new Error("No query param, cannot generate search URL");
 
-			_.defaults(params, { order: 'SE' });
+			_.defaults(params, { order: 'SE', filter: 'none' });
 			var result = '/search/' + query + '/';
 			if (params['filter']) result += 'f/' + params['filter'] + '/';
 			if (params['order']) result += 'o/' + params['order'] + '/';
@@ -45,16 +45,17 @@ app.controller('ResultsController', function($scope, $routeParams, $location, $a
 
 	$scope.orderBy = function(value) {
 		return $location.path($query.generateSearchPath({
-			query : $routeParams['q'],
+			query : $routeParams['query'],
 			filter: $routeParams['filter'],
 			order: value
 		}));
 	};
 
-	var query = $routeParams['q']
+	var query = $routeParams['query']
 	if (query) {
 		$scope.query = query;
 		$scope.filter = $routeParams['filter'];
+		$scope.order = $routeParams['order'];
 	}
 
 	var _redirect = _.partial($location.path, '/');
@@ -85,20 +86,21 @@ app.directive('section', function() {
 
 app.directive('searchBox', function($location, $query) {
 	var linkFn = function(scope, el, attrs) {
-		scope.searchTerm = scope.searchTerm || '';
-		scope.$watch('searchFilter', function(value) {
+		scope.defaultQuery = scope.defaultQuery || '';
+		scope.$watch('defaultFilter', function(value) {
 			if (value) {
 				el.find('input[value=' + value + ']').attr('checked', true);
 			}
 		});
 
 		scope.doSearch= function() {
-			if (!scope.searchTerm) return;
-			var filter = el.find('input[type=checkbox]:checked').first();
+			if (!scope.defaultQuery) return;
 
+			var filter = el.find('input[type=checkbox]:checked').first();
 			$location.path($query.generateSearchPath({
-				query: scope.searchTerm,
-				filter: filter ? filter.val() : null
+				query: scope.defaultQuery,
+				order: scope.defaultOrder,
+				filter: filter.val() || undefined
 			}));
 		};
 	};
@@ -108,8 +110,9 @@ app.directive('searchBox', function($location, $query) {
 		restrict: 'C',
 		link: linkFn,
 		scope: {
-			searchTerm: '@',
-			searchFilter: '@'
+			defaultQuery: '@',
+			defaultOrder: '@',
+			defaultFilter: '@',
 		}
 	}
 });
@@ -117,12 +120,9 @@ app.directive('searchBox', function($location, $query) {
 app.config(function($locationProvider, $routeProvider, $compileProvider) {
 	$compileProvider.urlSanitizationWhitelist(/^\s*(https?|magnet):/);
   $routeProvider.
-      when('/search/:q/o/:order/', { templateUrl: 'results.html', controller: 'ResultsController' }).
-      when('/search/:q/f/:filter/o/:order/', { templateUrl: 'results.html', controller: 'ResultsController' }).
-      when('/search/:q/f/:filter/', { templateUrl: 'results.html', controller: 'ResultsController' }).
-      when('/search/:q/', { templateUrl: 'results.html', controller: 'ResultsController' }).
+      when('/search/:query/f/:filter/o/:order/', { templateUrl: 'results.html', controller: 'ResultsController' }).
+      when('/search/:query/o/:order/', { templateUrl: 'results.html', controller: 'ResultsController' }).
       when('/top/f/:filter/', { templateUrl: 'results.html', controller: 'ResultsController' }).
       when('/', { templateUrl: 'main.html' }).
       otherwise({redirectTo: '/'});
-	//$locationProvider.html5Mode(true);
 });

@@ -3,7 +3,7 @@
 <!--[if IE 7 ]>    <html lang="en" class="no-js ie7"> <![endif]-->
 <!--[if IE 8 ]>    <html lang="en" class="no-js ie8"> <![endif]-->
 <!--[if IE 9 ]>    <html lang="en" class="no-js ie9"> <![endif]-->
-<!--[if (gt IE 9)|!(IE)]><!--> <html lang="en" class="no-js" ng-app="app" ng-csp> <!--<![endif]-->
+<!--[if (gt IE 9)|!(IE)]><!--> <html lang="en" class="no-js" ng-app="app"> <!--<![endif]-->
 <head>
 	<meta charset="UTF-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
@@ -23,7 +23,7 @@
 	<a href="https://github.com/PirosB3/TheItalianBay"><img style="position: absolute; top: 0; left: 0; border: 0;" src="/static/img/ribbon.png" alt="Fork me on GitHub"></a>
 	<div id="container">
 		<header>
-			<h1 id="title"><a title="The Italian Bay" href="/#/"></a></h1>
+			<h1 id="title"><a title="The Italian Bay" href="#/"></a></h1>
 		</header>
 
 		<div id="main" role="main">
@@ -47,15 +47,15 @@
 	</script>
 
 	<script type="text/ng-template" id="results.html">
-		<span class="search-box" search-filter="{{filter}}" search-term="{{query}}"></span>
+		<span class="search-box" default-filter="{{filter}}" default-query="{{query}}" default-order="{{order}}"></span>
 		
 			<table ng-show="data" id="results" width="960" border="1"> 
 				<thead id="results-head">
 					<tr ng-show="query">
-							<th scope="col"><a ng-click="orderBy('title')">Title</a></th>
-							<th scope="col"><a ng-click="orderBy('size')">Size</a></th>
-							<th scope="col"><a ng-click="orderBy('SE')">SE</a></th>
-							<th scope="col"><a ng-click="orderBy('LE')">LE</a></th>
+							<th scope="col"><a class="clickable" ng-click="orderBy('title')">Title</a></th>
+							<th scope="col"><a class="clickable" ng-click="orderBy('size')">Size</a></th>
+							<th scope="col"><a class="clickable" ng-click="orderBy('SE')">SE</a></th>
+							<th scope="col"><a class="clickable" ng-click="orderBy('LE')">LE</a></th>
 					</tr>
 					<tr ng-hide="query">
 							<th scope="col">Title</th>
@@ -66,7 +66,7 @@
 				</thead>
 				<tbody>
 						<tr ng-repeat="result in data">
-							<td><a ng-href="{{result.href}}">{{ result.title}}</a></td>
+							<td><a ng-href="{{ result.href }}">{{ result.title}}</a></td>
 							<td><center>{{ result.size }}</center></td>
 							<td><center>{{ result.SE }}</center></td>
 							<td><center>{{ result.LE }}</center></td>
@@ -82,7 +82,7 @@
 			<h3 class="section-title">Search</h3>
 			<div class="section-content">
 				<form ng-submit="doSearch();">
-					<label for="value">Search For:</label><input id="search-field" type="text" ng-model="searchTerm">
+					<label for="value">Search For:</label><input id="search-field" type="text" ng-model="defaultQuery">
 					<input type="submit" value="Search">
 					<div id="filter-field">
 						<input type="checkbox" name="filter" value="audio" id="audio"><label for="audio">Audio</label>
@@ -111,7 +111,7 @@
 		<div id="top-100-section" class="section">
 			<h3 class="section-title">Browse Top 100</h3>
 			<div class="section-content">
-				<a href="#/top/f/all">All</a>
+				<a href="#/top/f/all/">All</a>
 				<a href="#/top/f/audio/">Audio</a>
 				<a href="#/top/f/video/">Video</a>
 				<a href="#/top/f/applications/">Applications</a>
