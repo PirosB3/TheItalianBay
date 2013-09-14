@@ -41,6 +41,12 @@ app.factory('$api', function($http) {
 	}
 });
 
+app.controller('MainController', function($scope) {
+	$scope.defaultQuery = '';
+	$scope.defaultFilter = 'none';
+	$scope.defaultOrder = 'SE';
+});
+
 app.controller('ResultsController', function($scope, $routeParams, $location, $api, $query) {
 
 	$scope.orderBy = function(value) {
@@ -69,6 +75,40 @@ app.controller('ResultsController', function($scope, $routeParams, $location, $a
 
 });
 
+app.directive('dropdownSelector', function() {
+
+
+	var linkFn = function(scope, el, attrs) {
+
+		var _setValue = function(value) {
+				var text = el.find('a[data-select-value="' + value + '"]').text();
+				if (text) {
+					scope.currentFilter = text;
+					scope.filterModel = value;
+					if (!scope.$$phase) scope.$digest();
+				}
+		};
+
+		el.find('a[data-select-value]').click(function(e) {
+			e.preventDefault();
+
+			var selectValue = $(this).data('select-value');
+			_setValue(selectValue);
+
+		});
+
+		scope.$watch('filterModel', _setValue);
+	}
+
+	return {
+		restrict: 'C',
+		link: linkFn,
+		scope: {
+			'filterModel': '='
+		}
+	}
+});
+
 app.directive('section', function() {
 	return {
 		restrict: 'C',
@@ -86,12 +126,6 @@ app.directive('section', function() {
 
 app.directive('searchBox', function($location, $query) {
 	var linkFn = function(scope, el, attrs) {
-		scope.defaultQuery = scope.defaultQuery || '';
-		scope.$watch('defaultFilter', function(value) {
-			if (value) {
-				el.find('input[value=' + value + ']').attr('checked', true);
-			}
-		});
 
 		scope.doSearch= function() {
 			if (!scope.defaultQuery) return;
@@ -100,7 +134,7 @@ app.directive('searchBox', function($location, $query) {
 			$location.path($query.generateSearchPath({
 				query: scope.defaultQuery,
 				order: scope.defaultOrder,
-				filter: filter.val() || undefined
+				filter: scope.defaultFilter
 			}));
 		};
 	};
@@ -110,9 +144,9 @@ app.directive('searchBox', function($location, $query) {
 		restrict: 'C',
 		link: linkFn,
 		scope: {
-			defaultQuery: '@',
-			defaultOrder: '@',
-			defaultFilter: '@',
+			defaultQuery: '=',
+			defaultOrder: '=',
+			defaultFilter: '=',
 		}
 	}
 });
@@ -123,6 +157,6 @@ app.config(function($locationProvider, $routeProvider, $compileProvider) {
       when('/search/:query/f/:filter/o/:order/', { templateUrl: 'results.html', controller: 'ResultsController' }).
       when('/search/:query/o/:order/', { templateUrl: 'results.html', controller: 'ResultsController' }).
       when('/top/f/:filter/', { templateUrl: 'results.html', controller: 'ResultsController' }).
-      when('/', { templateUrl: 'main.html' }).
+      when('/', { templateUrl: 'main.html', controller: 'MainController' }).
       otherwise({redirectTo: '/'});
 });

@@ -69,3 +69,43 @@ describe('Italian Bay tests', function() {
 	});
 
 });
+
+describe('Filter Dropdown tests', function() {
+	var el, scope;
+
+	beforeEach(module('app'));
+
+	beforeEach(inject(function($rootScope, $compile) {
+		elm = angular.element(
+				'<span class="input-group-btn dropdown-selector" filter-model="currentFilter" >' + 
+					'<button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">{{ currentFilter }}<span class="caret"></span></button>' + 
+					'<ul class="dropdown-menu pull-right">' + 
+						'<li><a data-select-value="none" href="#">No Filter</a></li>' + 
+						'<li><a data-select-value="audio" href="#">Audio</a></li>' + 
+						'<li><a data-select-value="video" href="#">Video</a></li>' + 
+					'</ul>' + 
+				'</span>'
+			);
+
+			scope = $rootScope;
+			$compile(elm)(scope);
+	}));
+
+	it('Should be able to get the default element', function() {
+		scope.currentFilter = "audio";
+		scope.$digest();
+		expect(elm.find('button').text()).toEqual('Audio');
+	});
+
+	it('Should be able to set the default element', function() {
+		scope.currentFilter = "audio";
+		scope.$digest();
+
+		elm.find('a[data-select-value="none"]').click();
+		scope.$digest();
+
+		expect(scope.currentFilter).toEqual('none');
+		expect(elm.find('button').text()).toEqual('No Filter');
+	});
+
+});
