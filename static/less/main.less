@@ -1,0 +1,64 @@
+@import "bootstrap/bootstrap.less";
+
+@tib-panel-color: #932B1B;
+
+@font-size-base: 12px;
+@link-color: @tib-panel-color;
+@input-border: @tib-panel-color;
+@input-border-focus: lighten(@tib-panel-color, 40%);
+@input-group-addon-bg: @tib-panel-color;
+@btn-default-color:    white;
+@btn-default-bg:       @tib-panel-color;
+@dropdown-link-hover-bg:      @tib-panel-color;
+@dropdown-link-hover-color: white;
+
+
+#title a{
+    background: url("/static/img/logo-complete.png") no-repeat scroll 0 0 transparent;
+    border: 0 none;
+    display: block;
+    height: 159px;
+    margin: 0 auto;
+    text-indent: -9999px;
+    width: 200px;
+}
+
+body{
+    background-image: url('/static/img/tile.jpg');
+    background-repeat: repeat;
+}
+
+.panel-default {
+	.box-shadow(0px 0px 5px black);
+  border-radius: @border-radius-base;
+	margin-bottom: 25px;
+
+	.panel-heading {
+    background-color: @tib-panel-color;
+    color: white;
+	}
+	.panel-body {
+    background-color: white;
+		border-bottom-right-radius: @border-radius-base;
+		border-bottom-left-radius: @border-radius-base;
+	}
+}
+
+.input-group {
+	color: white;
+	
+	.input-group-addon {
+		font-size: 14px;
+	}
+
+	.input-group-btn {
+		.input-group-addon;
+    background-color: @tib-panel-color;
+		
+		.btn-default, .btn-default:hover {
+			border: none;
+			border-radius: 0px;
+		}
+	}
+
+}
