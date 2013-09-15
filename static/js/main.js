@@ -66,7 +66,9 @@ app.controller('ResultsController', function($scope, $routeParams, $location, $a
 
 	var _redirect = _.partial($location.path, '/');
 	try {
+		$scope.progressBarRun = true;
 		$api.getDataFromRouteParams($location.path(), $routeParams).then(function(result) {
+			$scope.progressBarRun = false;
 			$scope.data = result.data;
 		}, _redirect);
 	} catch(e) {
@@ -75,9 +77,38 @@ app.controller('ResultsController', function($scope, $routeParams, $location, $a
 
 });
 
+app.directive('progressBar', function($timeout) {
+
+	var linkFn = function(scope, el, attr) {
+		scope.progressValue = 0;
+
+		var _timeout;
+		var _timeoutFn = function() {
+			scope.progressValue += parseInt(scope.incrementBy);
+			_timeout = $timeout(_timeoutFn, parseInt(scope.timeoutValue));
+		};
+
+		scope.$watch('run', function(status) {
+			if (status) {
+				_timeout = $timeout(_timeoutFn, parseInt(scope.timeoutValue));
+			} else {
+				$timeout.cancel(_timeout);
+			}
+		});
+	};
+
+	return {
+		restrict: 'C',
+		link: linkFn,
+		scope: {
+			timeoutValue: '@',
+			incrementBy: '@',
+			run: '='
+		}
+	}
+});
+
 app.directive('dropdownSelector', function() {
-
-
 	var linkFn = function(scope, el, attrs) {
 
 		var _setValue = function(value) {
@@ -91,10 +122,8 @@ app.directive('dropdownSelector', function() {
 
 		el.find('a[data-select-value]').click(function(e) {
 			e.preventDefault();
-
 			var selectValue = $(this).data('select-value');
 			_setValue(selectValue);
-
 		});
 
 		scope.$watch('filterModel', _setValue);

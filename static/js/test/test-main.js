@@ -109,3 +109,32 @@ describe('Filter Dropdown tests', function() {
 	});
 
 });
+
+describe('Progress bar tests', function() {
+	var el, scope, _timeout;
+
+	beforeEach(module('app'));
+
+	beforeEach(inject(function($rootScope, $compile, $timeout) {
+		elm = angular.element('<span increment-by="3" timeout-value="500" run="runState" class="progress-bar">');
+			_timeout = $timeout;
+			scope = $rootScope;
+			$compile(elm)(scope);
+	}));
+
+	it("should start from 0", function() {
+		expect(elm.scope().progressValue).toEqual(0);
+	});
+
+	it("should start progressing", function() {
+		expect(elm.scope().progressValue).toEqual(0);
+
+		scope.runState = true;
+		scope.$digest();
+		_timeout.flush();
+
+		expect(elm.scope().progressValue).toEqual(3);
+
+	});
+
+});
