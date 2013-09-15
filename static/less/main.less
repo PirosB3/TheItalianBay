@@ -12,6 +12,8 @@
 @dropdown-link-hover-bg:      @tib-panel-color;
 @dropdown-link-hover-color: white;
 @brand-primary: @tib-panel-color;
+@table-bg: white;
+@table-border-color: @tib-panel-color;
 
 
 #title a{
@@ -62,4 +64,19 @@ body{
 		}
 	}
 
+}
+
+.table {
+	thead tr {
+    background-color: @tib-panel-color;
+		color: white;
+		
+		th {
+			.text-center;
+			
+			a.clickable {
+				color: white;
+			}
+		}
+	}
 }

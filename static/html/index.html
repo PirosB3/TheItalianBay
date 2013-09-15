@@ -41,10 +41,10 @@
 	</script>
 
 	<script type="text/ng-template" id="results.html">
-		<span class="search-box" default-filter="filter" default-query="query" default-order="order"></span>
-		
-			<table ng-show="data" id="results" width="960" border="1"> 
-				<thead id="results-head">
+		<div class="col-md-8 col-md-offset-2">
+			<span class="search-box" default-filter="filter" default-query="query" default-order="order"></span>
+			<table ng-show="data" class="table table-hover"> 
+				<thead>
 					<tr ng-show="query">
 							<th scope="col"><a class="clickable" ng-click="orderBy('title')">Title</a></th>
 							<th scope="col"><a class="clickable" ng-click="orderBy('size')">Size</a></th>
@@ -74,6 +74,8 @@
 						</div>
 				</div>
 			</div>
+		</div>
+		
 	</script>
 
 	<script type="text/ng-template" id="search-box.html">
@@ -98,7 +100,7 @@
 									</ul>
 								</span>	
 								<span class="input-group-btn">
-									<button class="btn btn-default" type="button">Go!</button>
+									<button ng-click="doSearch();" class="btn btn-default" type="button">Go!</button>
 								</span>	
 							</div>
 						</form>
