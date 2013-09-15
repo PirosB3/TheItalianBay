@@ -68,7 +68,12 @@
 				</tbody>
 			</table>
 			<center ng-show="data.length == 0">No Results</center>
-			<center ng-show="!data">Loading</center>
+			<div ng-show="!data">
+					<div class="progress">
+									<div class="progress-bar" run="progressBarRun" role="progressbar" style="width: {{ progressValue }}%">
+						</div>
+				</div>
+			</div>
 	</script>
 
 	<script type="text/ng-template" id="search-box.html">
