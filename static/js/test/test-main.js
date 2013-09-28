@@ -27,17 +27,17 @@ describe('Italian Bay tests', function() {
 
 	it('Should be able to get search with query, filter and order', function() {
 		[
-			'/api/search?q=Hello%20World', // Only query
-			'/api/search?filter=video&q=Hello%20World', // Query and filter
-			'/api/search?filter=video&order=SE&q=Hello%20World', // Query, filter and order
+			'/api/search?query=Hello%20World', // Only query
+			'/api/search?filter=video&query=Hello%20World', // Query and filter
+			'/api/search?filter=video&order=SE&query=Hello%20World', // Query, filter and order
 		].forEach(function(api) {
 			_httpBackend.expectGET(api).respond([]);
 		});
 
 		[
-			{ url: '/search/Hello%20World/', q: 'Hello World' }, // Only query
-			{ url: '/search/Hello%20World/f/video/', q: 'Hello World', filter: 'video' }, // Query and filter
-			{ url: '/search/Hello%20World/f/video/o/SE/', q: 'Hello World', filter: 'video', order: 'SE' } // Query, filter and order
+			{ url: '/search/Hello%20World/', query: 'Hello World' }, // Only query
+			{ url: '/search/Hello%20World/f/video/', query: 'Hello World', filter: 'video' }, // Query and filter
+			{ url: '/search/Hello%20World/f/video/o/SE/', query: 'Hello World', filter: 'video', order: 'SE' } // Query, filter and order
 		].forEach(function(params) {
 			var url = params['url']
 			delete params['url']; 
@@ -56,13 +56,13 @@ describe('Italian Bay tests', function() {
 	it("Should be able to generate a query with order and filter", function() {
 
 		var path = _query.generateSearchPath({ query: 'Hello World' });
-		expect(path).toEqual('/search/Hello%20World/');
+		expect(path).toEqual('/search/Hello World/f/none/o/SE/');
 
 		var path = _query.generateSearchPath({ query: 'ubuntu', order: 'LE' });
-		expect(path).toEqual('/search/ubuntu/o/LE/');
+		expect(path).toEqual('/search/ubuntu/f/none/o/LE/');
 
 		var path = _query.generateSearchPath({ query: 'ubuntu', filter: 'application' });
-		expect(path).toEqual('/search/ubuntu/f/application/');
+		expect(path).toEqual('/search/ubuntu/f/application/o/SE/');
 
 		var path = _query.generateSearchPath({ query: 'ubuntu', filter: 'application', order: 'SE' });
 		expect(path).toEqual('/search/ubuntu/f/application/o/SE/');
@@ -93,16 +93,14 @@ describe('Filter Dropdown tests', function() {
 
 	it('Should be able to get the default element', function() {
 		scope.currentFilter = "audio";
-		scope.$digest();
+		elm.scope().$digest();
 		expect(elm.find('button').text()).toEqual('Audio');
 	});
 
 	it('Should be able to set the default element', function() {
 		scope.currentFilter = "audio";
-		scope.$digest();
 
 		elm.find('a[data-select-value="none"]').click();
-		scope.$digest();
 
 		expect(scope.currentFilter).toEqual('none');
 		expect(elm.find('button').text()).toEqual('No Filter');

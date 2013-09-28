@@ -70,7 +70,7 @@
 			<center ng-show="data.length == 0">No Results</center>
 			<div ng-show="!data">
 					<div class="progress">
-									<div class="progress-bar" run="progressBarRun" role="progressbar" style="width: {{ progressValue }}%">
+									<div class="progress-bar" increment-by="3" timeout-value="500" run="progressBarRun" role="progressbar" style="width: {{ progressValue }}%">
 						</div>
 				</div>
 			</div>

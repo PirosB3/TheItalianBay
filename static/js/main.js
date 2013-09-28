@@ -1,3 +1,6 @@
+var DEFAULT_QUERY = '';
+var DEFAULT_ORDER = 'SE';
+var DEFAULT_FILTER = 'none';
 var URL_TO_INTENT = {
 	'/search/'   :   { url: '/api/search', args: ['filter', 'query', 'order'] },
 	'/top/f/' :   { url: '/api/top100', args: ['filter'] }
@@ -42,27 +45,25 @@ app.factory('$api', function($http) {
 });
 
 app.controller('MainController', function($scope) {
-	$scope.defaultQuery = '';
-	$scope.defaultFilter = 'none';
-	$scope.defaultOrder = 'SE';
+	$scope.defaultQuery = DEFAULT_QUERY;
+	$scope.defaultFilter = DEFAULT_FILTER;
+	$scope.defaultOrder = DEFAULT_ORDER;
 });
 
 app.controller('ResultsController', function($scope, $routeParams, $location, $api, $query) {
 
 	$scope.orderBy = function(value) {
 		return $location.path($query.generateSearchPath({
-			query : $routeParams['query'],
-			filter: $routeParams['filter'],
+			query : $scope.query,
+			filter: $scope.filter,
 			order: value
 		}));
 	};
 
-	var query = $routeParams['query']
-	if (query) {
-		$scope.query = query;
-		$scope.filter = $routeParams['filter'];
-		$scope.order = $routeParams['order'];
-	}
+	var query = $routeParams['query'] || DEFAULT_QUERY;;
+	$scope.query = query
+	$scope.filter = query != DEFAULT_QUERY? $routeParams['filter'] : DEFAULT_FILTER;
+	$scope.order = query != DEFAULT_QUERY? $routeParams['order'] : DEFAULT_ORDER;
 
 	var _redirect = _.partial($location.path, '/');
 	try {
@@ -70,7 +71,9 @@ app.controller('ResultsController', function($scope, $routeParams, $location, $a
 		$api.getDataFromRouteParams($location.path(), $routeParams).then(function(result) {
 			$scope.progressBarRun = false;
 			$scope.data = result.data;
-		}, _redirect);
+		}, function() {
+			$location.path('/');
+		});
 	} catch(e) {
 		_redirect();
 	}
@@ -108,7 +111,7 @@ app.directive('progressBar', function($timeout) {
 	}
 });
 
-app.directive('dropdownSelector', function() {
+app.directive('dropdownSelector', function($rootScope) {
 	var linkFn = function(scope, el, attrs) {
 
 		var _setValue = function(value) {
@@ -116,7 +119,7 @@ app.directive('dropdownSelector', function() {
 				if (text) {
 					scope.currentFilter = text;
 					scope.filterModel = value;
-					if (!scope.$$phase) scope.$digest();
+					if (!$rootScope.$$phase) scope.$digest();
 				}
 		};
 
