@@ -80,37 +80,6 @@ app.controller('ResultsController', function($scope, $routeParams, $location, $a
 
 });
 
-app.directive('progressBar', function($timeout) {
-
-	var linkFn = function(scope, el, attr) {
-		scope.progressValue = 0;
-
-		var _timeout;
-		var _timeoutFn = function() {
-			scope.progressValue += parseInt(scope.incrementBy);
-			_timeout = $timeout(_timeoutFn, parseInt(scope.timeoutValue));
-		};
-
-		scope.$watch('run', function(status) {
-			if (status) {
-				_timeout = $timeout(_timeoutFn, parseInt(scope.timeoutValue));
-			} else {
-				$timeout.cancel(_timeout);
-			}
-		});
-	};
-
-	return {
-		restrict: 'C',
-		link: linkFn,
-		scope: {
-			timeoutValue: '@',
-			incrementBy: '@',
-			run: '='
-		}
-	}
-});
-
 app.directive('dropdownSelector', function($rootScope) {
 	var linkFn = function(scope, el, attrs) {
 
