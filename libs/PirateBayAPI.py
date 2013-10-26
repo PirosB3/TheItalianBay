@@ -20,6 +20,7 @@ import os
 
 
 """This component is used to generate results for thepiratebay.org"""
+TWO_HOURS = 7200
 URI = 'http://thepiratebay.se'
 SIZE_RE = re.compile('Size\s+(\d+(?:\.\d+)?\s+[A-Za-z]+)')
 MAGNET_RE = re.compile('^magnet:')
@@ -69,7 +70,7 @@ def CacheControlled(function):
 
         # Let's run the function and cache it ;)
         result = function(*args, **kwargs)
-        r = memcache.add(unique_string, result, 3600, 0, function__name__)
+        r = memcache.add(unique_string, result, TWO_HOURS, 0, function__name__)
 
         logging.debug("NEW CACHE: %s and %s" % (unique_string, function__name__))
 

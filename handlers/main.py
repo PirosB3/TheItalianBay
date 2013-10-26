@@ -92,6 +92,7 @@ if DEBUG_ENABLED:
 
 # END TORRENT SEARCH HANDLERS
 app= webapp2.WSGIApplication([
+        ('/api/cache_warm', CacheWarmingHandler),
         ('/api/search', RequestResultsForValueHandler),
         ('/api/top100', RequestResultsforTop100),
         ('/api/top/', RequestResultsforTop100)
