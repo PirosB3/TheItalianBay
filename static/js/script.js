@@ -10,6 +10,9 @@ $(function(){
         }
     })
     
+    //autofocus search field
+    $("#search-field").focus();
+    
     // For Sections
     $('.section-title').live('click', function()
     {
